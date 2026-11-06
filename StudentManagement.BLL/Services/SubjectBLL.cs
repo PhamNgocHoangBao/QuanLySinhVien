@@ -14,29 +14,50 @@ namespace StudentManagement.BLL.Services
             return subjectDAL.GetAll();
         }
 
-        public bool Insert(SubjectDTO subject)
+        public bool Insert(SubjectDTO item)
         {
-            ValidateSubject(subject);
-            return subjectDAL.Insert(subject);
+            string error = SubjectValidator.Validate(item);
+
+            if (error != null)
+                throw new Exception(error);
+            CheckDuplicateSubject(item);
+            return subjectDAL.Insert(item);
         }
 
-        public bool Update(SubjectDTO subject)
+        public bool Update(SubjectDTO item)
         {
-            if (subject == null || subject.SubjectID <= 0)
+            if (item == null || item.SubjectID <= 0)
                 throw new Exception("Mã môn học không hợp lệ.");
 
-            ValidateSubject(subject);
-            return subjectDAL.Update(subject);
+            string error = SubjectValidator.Validate(item);
+
+            if (error != null)
+                throw new Exception(error);
+            CheckDuplicateSubject(item);
+            return subjectDAL.Update(item);
         }
 
-        public bool Delete(int subjectID)
+        public bool Delete(int id)
         {
-            if (subjectID <= 0)
+            if (id <= 0)
                 throw new Exception("Mã môn học không hợp lệ.");
 
-            return subjectDAL.Delete(subjectID);
+            return subjectDAL.Delete(id);
         }
+        private void CheckDuplicateSubject(SubjectDTO item)
+        {
+            var subjects = subjectDAL.GetAll();
 
+            bool exists = subjects.Exists(s =>
+                s.SubjectCode.Equals(
+                    item.SubjectCode.Trim(),
+                    StringComparison.OrdinalIgnoreCase)
+                && s.SubjectID != item.SubjectID);
+
+            if (exists)
+                throw new Exception("Mã môn học đã tồn tại.");
+        }
+        /*
         private void ValidateSubject(SubjectDTO subject)
         {
             if (subject == null)
@@ -57,5 +78,6 @@ namespace StudentManagement.BLL.Services
             if (subject.Credits <= 0)
                 throw new Exception("Số tín chỉ phải lớn hơn 0.");
         }
+        */
     }
 }

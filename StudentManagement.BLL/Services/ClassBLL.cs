@@ -15,31 +15,50 @@ namespace StudentManagement.BLL.Services
             return classDAL.GetAll();
         }
 
-        public bool Insert(ClassDTO classDTO)
+        public bool Insert(ClassDTO item)
         {
-            ValidateClass(classDTO);
+            string error = ClassValidator.Validate(item);
 
-            return classDAL.Insert(classDTO);
+            if (error != null)
+                throw new Exception(error);
+            CheckDuplicateClass(item);
+            return classDAL.Insert(item);
         }
 
-        public bool Update(ClassDTO classDTO)
+        public bool Update(ClassDTO item)
         {
-            if (classDTO.ClassID <= 0)
+            if (item == null || item.ClassID <= 0)
+                throw new Exception("Thông tin lớp không hợp lệ.");
+
+            string error = ClassValidator.Validate(item);
+
+            if (error != null)
+                throw new Exception(error);
+            CheckDuplicateClass(item);
+            return classDAL.Update(item);
+        }
+
+        public bool Delete(int id)
+        {
+            if (id <= 0)
                 throw new Exception("Mã lớp không hợp lệ.");
 
-            ValidateClass(classDTO);
-
-            return classDAL.Update(classDTO);
+            return classDAL.Delete(id);
         }
-
-        public bool Delete(int classID)
+        private void CheckDuplicateClass(ClassDTO item)
         {
-            if (classID <= 0)
-                throw new Exception("Mã lớp không hợp lệ.");
+            var classes = classDAL.GetAll();
 
-            return classDAL.Delete(classID);
+            bool exists = classes.Exists(c =>
+                c.ClassName.Equals(
+                    item.ClassName.Trim(),
+                    StringComparison.OrdinalIgnoreCase)
+                && c.ClassID != item.ClassID);
+
+            if (exists)
+                throw new Exception("Tên lớp đã tồn tại.");
         }
-
+        /*
         private void ValidateClass(ClassDTO classDTO)
         {
             if (classDTO == null)
@@ -63,5 +82,6 @@ namespace StudentManagement.BLL.Services
             if (!departmentExists)
                 throw new Exception("Khoa được chọn không tồn tại.");
         }
+        */
     }
 }

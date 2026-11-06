@@ -14,37 +14,48 @@ namespace StudentManagement.BLL.Services
             return departmentDAL.GetAll();
         }
 
-        public bool Insert(DepartmentDTO department)
+        public bool Insert(DepartmentDTO item)
         {
-            if (department == null)
-                throw new Exception("Dữ liệu khoa không hợp lệ.");
+            string error = DepartmentValidator.Validate(item);
 
-            if (string.IsNullOrWhiteSpace(department.DepartmentName))
-                throw new Exception("Tên khoa không được để trống.");
-
-            return departmentDAL.Insert(department);
+            if (error != null)
+                throw new Exception(error);
+            CheckDuplicateDepartment(item);
+            return departmentDAL.Insert(item);
         }
 
-        public bool Update(DepartmentDTO department)
+        public bool Update(DepartmentDTO item)
         {
-            if (department == null)
-                throw new Exception("Dữ liệu khoa không hợp lệ.");
-
-            if (department.DepartmentID <= 0)
+            if (item == null || item.DepartmentID <= 0)
                 throw new Exception("Mã khoa không hợp lệ.");
 
-            if (string.IsNullOrWhiteSpace(department.DepartmentName))
-                throw new Exception("Tên khoa không được để trống.");
+            string error = DepartmentValidator.Validate(item);
 
-            return departmentDAL.Update(department);
+            if (error != null)
+                throw new Exception(error);
+            CheckDuplicateDepartment(item);
+            return departmentDAL.Update(item);
         }
 
-        public bool Delete(int departmentID)
+        public bool Delete(int id)
         {
-            if (departmentID <= 0)
+            if (id <= 0)
                 throw new Exception("Mã khoa không hợp lệ.");
 
-            return departmentDAL.Delete(departmentID);
+            return departmentDAL.Delete(id);
+        }
+        private void CheckDuplicateDepartment(DepartmentDTO item)
+        {
+            var departments = departmentDAL.GetAll();
+
+            bool exists = departments.Exists(d =>
+                d.DepartmentName.Equals(
+                    item.DepartmentName.Trim(),
+                    StringComparison.OrdinalIgnoreCase)
+                && d.DepartmentID != item.DepartmentID);
+
+            if (exists)
+                throw new Exception("Tên khoa đã tồn tại.");
         }
     }
 }

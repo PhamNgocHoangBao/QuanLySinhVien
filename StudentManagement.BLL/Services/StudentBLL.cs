@@ -27,29 +27,51 @@ namespace StudentManagement.BLL.Services
             return studentDAL.Search(keyword ?? "");
         }
 
-        public bool Insert(StudentDTO student)
+        public bool Insert(StudentDTO item)
         {
-            ValidateStudent(student);
-            return studentDAL.Insert(student);
+            string error = StudentValidator.Validate(item);
+
+            if (error != null)
+                throw new Exception(error);
+            CheckDuplicateStudent(item);
+
+            return studentDAL.Insert(item);
         }
 
-        public bool Update(StudentDTO student)
+        public bool Update(StudentDTO item)
         {
-            if (student == null || student.StudentID <= 0)
-                throw new Exception("Thông tin sinh viên không hợp lệ.");
-
-            ValidateStudent(student);
-            return studentDAL.Update(student);
-        }
-
-        public bool Delete(int studentID)
-        {
-            if (studentID <= 0)
+            if (item == null || item.StudentID <= 0)
                 throw new Exception("Mã sinh viên không hợp lệ.");
 
-            return studentDAL.Delete(studentID);
+            string error = StudentValidator.Validate(item);
+
+            if (error != null)
+                throw new Exception(error);
+            CheckDuplicateStudent(item);
+            return studentDAL.Update(item);
         }
 
+        public bool Delete(int id)
+        {
+            if (id <= 0)
+                throw new Exception("Mã sinh viên không hợp lệ.");
+
+            return studentDAL.Delete(id);
+        }
+        private void CheckDuplicateStudent(StudentDTO student)
+        {
+            var students = studentDAL.GetAll();
+
+            bool exists = students.Exists(s =>
+                s.StudentCode.Equals(
+                    student.StudentCode.Trim(),
+                    StringComparison.OrdinalIgnoreCase)
+                && s.StudentID != student.StudentID);
+
+            if (exists)
+                throw new Exception("Mã sinh viên đã tồn tại.");
+        }
+        /*
         private void ValidateStudent(StudentDTO student)
         {
             if (student == null)
@@ -82,5 +104,7 @@ namespace StudentManagement.BLL.Services
                 student.Phone.Length > 15)
                 throw new Exception("Số điện thoại không được vượt quá 15 ký tự.");
         }
+        */
+
     }
 }

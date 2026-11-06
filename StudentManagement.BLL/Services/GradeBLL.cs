@@ -27,33 +27,53 @@ namespace StudentManagement.BLL.Services
             return gradeDAL.Search(keyword ?? "");
         }
 
-        public bool Insert(GradeDTO grade)
+        public bool Insert(GradeDTO item)
         {
-            ValidateGrade(grade);
-            CalculateTotalScore(grade);
+            string error = GradeValidator.Validate(item);
 
-            return gradeDAL.Insert(grade);
+            if (error != null)
+                throw new Exception(error);
+            CheckDuplicateGrade(item);
+            return gradeDAL.Insert(item);
         }
 
-        public bool Update(GradeDTO grade)
+        public bool Update(GradeDTO item)
         {
-            if (grade == null || grade.GradeID <= 0)
+            if (item == null || item.GradeID <= 0)
                 throw new Exception("Mã điểm không hợp lệ.");
 
-            ValidateGrade(grade);
-            CalculateTotalScore(grade);
+            string error = GradeValidator.Validate(item);
 
-            return gradeDAL.Update(grade);
+            if (error != null)
+                throw new Exception(error);
+            CheckDuplicateGrade(item);
+            return gradeDAL.Update(item);
         }
 
-        public bool Delete(int gradeID)
+        public bool Delete(int id)
         {
-            if (gradeID <= 0)
+            if (id <= 0)
                 throw new Exception("Mã điểm không hợp lệ.");
 
-            return gradeDAL.Delete(gradeID);
+            return gradeDAL.Delete(id);
         }
+        private void CheckDuplicateGrade(GradeDTO item)
+        {
+            var grades = gradeDAL.GetAll();
 
+            bool exists = grades.Exists(g =>
+                g.StudentID == item.StudentID &&
+                g.SubjectID == item.SubjectID &&
+                g.Semester == item.Semester &&
+                g.SchoolYear == item.SchoolYear &&
+                g.GradeID != item.GradeID);
+
+            if (exists)
+                throw new Exception(
+                    "Sinh viên đã có điểm môn học này trong học kỳ và năm học đã chọn.");
+        }
+        
+        /*
         private void ValidateGrade(GradeDTO grade)
         {
             if (grade == null)
@@ -77,7 +97,7 @@ namespace StudentManagement.BLL.Services
             if (!IsValidScore(grade.FinalScore))
                 throw new Exception("Điểm cuối kỳ phải nằm trong khoảng 0 đến 10.");
         }
-
+        */
         private bool IsValidScore(decimal? score)
         {
             return !score.HasValue ||

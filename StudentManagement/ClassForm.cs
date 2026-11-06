@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-
+using StudentManagement.UI.Helpers;
 using StudentManagement.DTO;
 using StudentManagement.BLL.Services;
-
+//
 namespace StudentManagement.UI
 {
     public partial class ClassForm : Form
@@ -116,6 +116,10 @@ namespace StudentManagement.UI
             {
                 MessageBox.Show(ex.Message, "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+<<<<<<< HEAD
+=======
+                MessageHelper.Error(ex.Message);
+>>>>>>> 04e7228a2417add90b9ebc1858933613daa73b2a
             }
         }
 
@@ -147,6 +151,10 @@ namespace StudentManagement.UI
             {
                 MessageBox.Show(ex.Message, "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+<<<<<<< HEAD
+=======
+                MessageHelper.Error(ex.Message);
+>>>>>>> 04e7228a2417add90b9ebc1858933613daa73b2a
             }
         }
 
@@ -189,6 +197,10 @@ namespace StudentManagement.UI
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+<<<<<<< HEAD
+=======
+                MessageHelper.Error(ex.Message);
+>>>>>>> 04e7228a2417add90b9ebc1858933613daa73b2a
             }
         }
 

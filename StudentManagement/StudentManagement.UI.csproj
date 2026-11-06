@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StudentManagement.BLL\StudentManagement.BLL.csproj" />
     <ProjectReference Include="..\StudentManagement.DTO\StudentManagement.DTO.csproj" />
   </ItemGroup>
