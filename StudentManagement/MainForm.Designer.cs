@@ -4,11 +4,12 @@
     {
         private System.ComponentModel.IContainer components = null;
 
+        private System.Windows.Forms.Panel pnlSidebar;
         private System.Windows.Forms.Panel pnlHeader;
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Label lblSubtitle;
-        private System.Windows.Forms.Panel pnlMenu;
         private System.Windows.Forms.Panel pnlContent;
+
+        private System.Windows.Forms.Label lblLogo;
+        private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Label lblWelcome;
         private System.Windows.Forms.Label lblDescription;
 
@@ -17,207 +18,190 @@
         private System.Windows.Forms.Button btnDepartments;
         private System.Windows.Forms.Button btnSubjects;
         private System.Windows.Forms.Button btnGrades;
+        private System.Windows.Forms.Button btnStatistics;
         private System.Windows.Forms.Button btnExit;
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
+            if (disposing && components != null)
                 components.Dispose();
-            }
 
             base.Dispose(disposing);
         }
 
         private void InitializeComponent()
         {
-            pnlHeader = new Panel();
-            lblTitle = new Label();
-            lblSubtitle = new Label();
-            pnlMenu = new Panel();
-            btnStudents = new Button();
-            btnClasses = new Button();
-            btnDepartments = new Button();
-            btnSubjects = new Button();
-            btnGrades = new Button();
-            btnExit = new Button();
-            pnlContent = new Panel();
-            lblWelcome = new Label();
-            lblDescription = new Label();
-            pnlHeader.SuspendLayout();
-            pnlMenu.SuspendLayout();
-            pnlContent.SuspendLayout();
-            SuspendLayout();
-            // 
-            // pnlHeader
-            // 
-            pnlHeader.BackColor = Color.FromArgb(31, 78, 121);
-            pnlHeader.Controls.Add(lblTitle);
-            pnlHeader.Controls.Add(lblSubtitle);
-            pnlHeader.Location = new Point(0, 0);
-            pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new Size(962, 108);
-            pnlHeader.TabIndex = 2;
-            // 
-            // lblTitle
-            // 
-            lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.White;
-            lblTitle.Location = new Point(26, 19);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(612, 42);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "HỆ THỐNG QUẢN LÝ SINH VIÊN";
-            // 
-            // lblSubtitle
-            // 
-            lblSubtitle.Font = new Font("Segoe UI", 10F);
-            lblSubtitle.ForeColor = Color.FromArgb(220, 230, 240);
-            lblSubtitle.Location = new Point(29, 66);
-            lblSubtitle.Name = "lblSubtitle";
-            lblSubtitle.Size = new Size(525, 23);
-            lblSubtitle.TabIndex = 1;
-            lblSubtitle.Text = "STUDENT MANAGEMENT SYSTEM";
-            // 
-            // pnlMenu
-            // 
-            pnlMenu.BackColor = Color.White;
-            pnlMenu.Controls.Add(btnStudents);
-            pnlMenu.Controls.Add(btnClasses);
-            pnlMenu.Controls.Add(btnDepartments);
-            pnlMenu.Controls.Add(btnSubjects);
-            pnlMenu.Controls.Add(btnGrades);
-            pnlMenu.Controls.Add(btnExit);
-            pnlMenu.Location = new Point(0, 108);
-            pnlMenu.Name = "pnlMenu";
-            pnlMenu.Size = new Size(245, 502);
-            pnlMenu.TabIndex = 1;
-            // 
-            // btnStudents
-            // 
-            btnStudents.Location = new Point(12, 6);
-            btnStudents.Name = "btnStudents";
-            btnStudents.Size = new Size(220, 75);
-            btnStudents.TabIndex = 0;
-            btnStudents.Text = "Quản lý sinh viên";
-            btnStudents.Click += btnStudents_Click;
-            // 
-            // btnClasses
-            // 
-            btnClasses.Location = new Point(12, 89);
-            btnClasses.Name = "btnClasses";
-            btnClasses.Size = new Size(220, 75);
-            btnClasses.TabIndex = 1;
-            btnClasses.Text = "Quản lý lớp học";
-            btnClasses.Click += btnClasses_Click;
-            // 
-            // btnDepartments
-            // 
-            btnDepartments.Location = new Point(12, 173);
-            btnDepartments.Name = "btnDepartments";
-            btnDepartments.Size = new Size(220, 75);
-            btnDepartments.TabIndex = 2;
-            btnDepartments.Text = "Quản lý khoa";
-            btnDepartments.Click += btnDepartments_Click;
-            // 
-            // btnSubjects
-            // 
-            btnSubjects.Location = new Point(12, 257);
-            btnSubjects.Name = "btnSubjects";
-            btnSubjects.Size = new Size(220, 75);
-            btnSubjects.TabIndex = 3;
-            btnSubjects.Text = "Quản lý môn học";
-            btnSubjects.Click += btnSubjects_Click;
-            // 
-            // btnGrades
-            // 
-            btnGrades.Location = new Point(12, 339);
-            btnGrades.Name = "btnGrades";
-            btnGrades.Size = new Size(220, 75);
-            btnGrades.TabIndex = 4;
-            btnGrades.Text = "Quản lý điểm";
-            btnGrades.Click += btnGrades_Click;
-            // 
-            // btnExit
-            // 
-            btnExit.Location = new Point(12, 424);
-            btnExit.Name = "btnExit";
-            btnExit.Size = new Size(220, 75);
-            btnExit.TabIndex = 5;
-            btnExit.Text = "Thoát chương trình";
-            btnExit.Click += btnExit_Click;
-            // 
-            // pnlContent
-            // 
-            pnlContent.BackColor = Color.FromArgb(245, 247, 250);
-            pnlContent.Controls.Add(lblWelcome);
-            pnlContent.Controls.Add(lblDescription);
-            pnlContent.Location = new Point(245, 108);
-            pnlContent.Name = "pnlContent";
-            pnlContent.Size = new Size(718, 502);
-            pnlContent.TabIndex = 0;
-            // 
-            // lblWelcome
-            // 
-            lblWelcome.Font = new Font("Segoe UI", 23F, FontStyle.Bold);
-            lblWelcome.ForeColor = Color.FromArgb(31, 78, 121);
-            lblWelcome.Location = new Point(57, 122);
-            lblWelcome.Name = "lblWelcome";
-            lblWelcome.Size = new Size(604, 56);
-            lblWelcome.TabIndex = 0;
-            lblWelcome.Text = "CHÀO MỪNG ĐẾN VỚI HỆ THỐNG";
-            lblWelcome.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // lblDescription
-            // 
-            lblDescription.Font = new Font("Segoe UI", 12F);
-            lblDescription.ForeColor = Color.FromArgb(90, 100, 110);
-            lblDescription.Location = new Point(88, 192);
-            lblDescription.Name = "lblDescription";
-            lblDescription.Size = new Size(542, 66);
-            lblDescription.TabIndex = 1;
-            lblDescription.Text = "Phần mềm hỗ trợ quản lý thông tin sinh viên, lớp học, khoa, môn học và kết quả học tập.";
-            lblDescription.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // MainForm
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(245, 247, 250);
-            ClientSize = new Size(962, 609);
-            Controls.Add(pnlContent);
-            Controls.Add(pnlMenu);
-            Controls.Add(pnlHeader);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
-            MaximizeBox = false;
-            Name = "MainForm";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "HỆ THỐNG QUẢN LÝ SINH VIÊN";
-            pnlHeader.ResumeLayout(false);
-            pnlMenu.ResumeLayout(false);
-            pnlContent.ResumeLayout(false);
-            ResumeLayout(false);
-        }
+            this.pnlSidebar = new System.Windows.Forms.Panel();
+            this.pnlHeader = new System.Windows.Forms.Panel();
+            this.pnlContent = new System.Windows.Forms.Panel();
 
-        private void ConfigureButton(
-            System.Windows.Forms.Button button,
-            string text,
-            int x,
-            int y)
-        {
-            button.Location = new System.Drawing.Point(x, y);
-            button.Size = new System.Drawing.Size(240, 50);
-            button.Text = text;
+            this.lblLogo = new System.Windows.Forms.Label();
+            this.lblHeader = new System.Windows.Forms.Label();
+            this.lblWelcome = new System.Windows.Forms.Label();
+            this.lblDescription = new System.Windows.Forms.Label();
 
-            button.Font = new System.Drawing.Font(
-                "Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnStudents = new System.Windows.Forms.Button();
+            this.btnClasses = new System.Windows.Forms.Button();
+            this.btnDepartments = new System.Windows.Forms.Button();
+            this.btnSubjects = new System.Windows.Forms.Button();
+            this.btnGrades = new System.Windows.Forms.Button();
+            this.btnStatistics = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
 
-            button.ForeColor = System.Drawing.Color.White;
-            button.BackColor =
+            this.SuspendLayout();
+
+            // FORM
+            this.Text = "HỆ THỐNG QUẢN LÝ SINH VIÊN";
+            this.ClientSize = new System.Drawing.Size(1200, 750);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.MinimumSize = new System.Drawing.Size(1000, 650);
+            this.BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+
+            // SIDEBAR
+            this.pnlSidebar.Location = new System.Drawing.Point(0, 0);
+            this.pnlSidebar.Size = new System.Drawing.Size(250, 750);
+            this.pnlSidebar.BackColor =
+                System.Drawing.Color.FromArgb(31, 45, 61);
+            this.pnlSidebar.Anchor =
+                System.Windows.Forms.AnchorStyles.Top |
+                System.Windows.Forms.AnchorStyles.Bottom |
+                System.Windows.Forms.AnchorStyles.Left;
+
+            // LOGO
+            this.lblLogo.Text = "STUDENT\nMANAGEMENT";
+            this.lblLogo.Location = new System.Drawing.Point(15, 25);
+            this.lblLogo.Size = new System.Drawing.Size(220, 75);
+            this.lblLogo.ForeColor = System.Drawing.Color.White;
+            this.lblLogo.Font = new System.Drawing.Font(
+                "Segoe UI", 17F, System.Drawing.FontStyle.Bold);
+            this.lblLogo.TextAlign =
+                System.Drawing.ContentAlignment.MiddleCenter;
+
+            // SIDEBAR BUTTONS
+            SetupMenuButton(btnStudents, "QUẢN LÝ SINH VIÊN", 120);
+            SetupMenuButton(btnClasses, "QUẢN LÝ LỚP HỌC", 180);
+            SetupMenuButton(btnDepartments, "QUẢN LÝ KHOA", 240);
+            SetupMenuButton(btnSubjects, "QUẢN LÝ MÔN HỌC", 300);
+            SetupMenuButton(btnGrades, "QUẢN LÝ ĐIỂM", 360);
+            SetupMenuButton(btnStatistics, "THỐNG KÊ - BÁO CÁO", 420);
+
+            SetupMenuButton(btnExit, "THOÁT CHƯƠNG TRÌNH", 650);
+            btnExit.BackColor = System.Drawing.Color.FromArgb(192, 57, 43);
+
+            // HEADER
+            this.pnlHeader.Location = new System.Drawing.Point(250, 0);
+            this.pnlHeader.Size = new System.Drawing.Size(950, 80);
+            this.pnlHeader.BackColor = System.Drawing.Color.White;
+            this.pnlHeader.Anchor =
+                System.Windows.Forms.AnchorStyles.Top |
+                System.Windows.Forms.AnchorStyles.Left |
+                System.Windows.Forms.AnchorStyles.Right;
+
+            this.lblHeader.Text = "HỆ THỐNG QUẢN LÝ SINH VIÊN";
+            this.lblHeader.Location = new System.Drawing.Point(30, 20);
+            this.lblHeader.Size = new System.Drawing.Size(700, 40);
+            this.lblHeader.Font = new System.Drawing.Font(
+                "Segoe UI", 17F, System.Drawing.FontStyle.Bold);
+            this.lblHeader.ForeColor =
                 System.Drawing.Color.FromArgb(31, 78, 121);
 
+            // CONTENT
+            this.pnlContent.Location = new System.Drawing.Point(250, 80);
+            this.pnlContent.Size = new System.Drawing.Size(950, 670);
+            this.pnlContent.BackColor =
+                System.Drawing.Color.FromArgb(245, 247, 250);
+            this.pnlContent.Anchor =
+                System.Windows.Forms.AnchorStyles.Top |
+                System.Windows.Forms.AnchorStyles.Bottom |
+                System.Windows.Forms.AnchorStyles.Left |
+                System.Windows.Forms.AnchorStyles.Right;
+
+            this.lblWelcome.Text = "CHÀO MỪNG ĐẾN VỚI HỆ THỐNG";
+            this.lblWelcome.Location = new System.Drawing.Point(70, 180);
+            this.lblWelcome.Size = new System.Drawing.Size(810, 60);
+            this.lblWelcome.Font = new System.Drawing.Font(
+                "Segoe UI", 23F, System.Drawing.FontStyle.Bold);
+            this.lblWelcome.ForeColor =
+                System.Drawing.Color.FromArgb(31, 78, 121);
+            this.lblWelcome.TextAlign =
+                System.Drawing.ContentAlignment.MiddleCenter;
+
+            this.lblDescription.Text =
+                "Phần mềm hỗ trợ quản lý sinh viên, lớp học, khoa, môn học và kết quả học tập.";
+            this.lblDescription.Location = new System.Drawing.Point(70, 255);
+            this.lblDescription.Size = new System.Drawing.Size(810, 60);
+            this.lblDescription.Font =
+                new System.Drawing.Font("Segoe UI", 11F);
+            this.lblDescription.ForeColor =
+                System.Drawing.Color.FromArgb(90, 100, 110);
+            this.lblDescription.TextAlign =
+                System.Drawing.ContentAlignment.MiddleCenter;
+
+            // EVENTS
+            this.btnStudents.Click +=
+                new System.EventHandler(this.btnStudents_Click);
+
+            this.btnClasses.Click +=
+                new System.EventHandler(this.btnClasses_Click);
+
+            this.btnDepartments.Click +=
+                new System.EventHandler(this.btnDepartments_Click);
+
+            this.btnSubjects.Click +=
+                new System.EventHandler(this.btnSubjects_Click);
+
+            this.btnGrades.Click +=
+                new System.EventHandler(this.btnGrades_Click);
+
+            this.btnStatistics.Click +=
+                new System.EventHandler(this.btnStatistics_Click);
+
+            this.btnExit.Click +=
+                new System.EventHandler(this.btnExit_Click);
+
+            // ADD SIDEBAR CONTROLS
+            this.pnlSidebar.Controls.Add(lblLogo);
+            this.pnlSidebar.Controls.Add(btnStudents);
+            this.pnlSidebar.Controls.Add(btnClasses);
+            this.pnlSidebar.Controls.Add(btnDepartments);
+            this.pnlSidebar.Controls.Add(btnSubjects);
+            this.pnlSidebar.Controls.Add(btnGrades);
+            this.pnlSidebar.Controls.Add(btnStatistics);
+            this.pnlSidebar.Controls.Add(btnExit);
+
+            // ADD HEADER CONTROLS
+            this.pnlHeader.Controls.Add(lblHeader);
+
+            // ADD CONTENT CONTROLS
+            this.pnlContent.Controls.Add(lblWelcome);
+            this.pnlContent.Controls.Add(lblDescription);
+
+            this.Controls.Add(pnlContent);
+            this.Controls.Add(pnlHeader);
+            this.Controls.Add(pnlSidebar);
+
+            this.ResumeLayout(false);
+        }
+
+        private void SetupMenuButton(
+            System.Windows.Forms.Button button,
+            string text,
+            int y)
+        {
+            button.Text = text;
+            button.Location = new System.Drawing.Point(15, y);
+            button.Size = new System.Drawing.Size(220, 45);
+            button.BackColor =
+                System.Drawing.Color.FromArgb(44, 62, 80);
+            button.ForeColor = System.Drawing.Color.White;
             button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             button.FlatAppearance.BorderSize = 0;
+            button.Font = new System.Drawing.Font(
+                "Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            button.TextAlign =
+                System.Drawing.ContentAlignment.MiddleLeft;
+            button.Padding = new System.Windows.Forms.Padding(15, 0, 0, 0);
             button.Cursor = System.Windows.Forms.Cursors.Hand;
         }
     }

@@ -27,31 +27,35 @@ namespace StudentManagement.BLL.Services
             return gradeDAL.Search(keyword ?? "");
         }
 
-        public bool Insert(GradeDTO grade)
+        public bool Insert(GradeDTO item)
         {
-            ValidateGrade(grade);
-            CalculateTotalScore(grade);
+            string error = GradeValidator.Validate(item);
 
-            return gradeDAL.Insert(grade);
+            if (error != null)
+                throw new Exception(error);
+
+            return gradeDAL.Insert(item);
         }
 
-        public bool Update(GradeDTO grade)
+        public bool Update(GradeDTO item)
         {
-            if (grade == null || grade.GradeID <= 0)
+            if (item == null || item.GradeID <= 0)
                 throw new Exception("Mã điểm không hợp lệ.");
 
-            ValidateGrade(grade);
-            CalculateTotalScore(grade);
+            string error = GradeValidator.Validate(item);
 
-            return gradeDAL.Update(grade);
+            if (error != null)
+                throw new Exception(error);
+
+            return gradeDAL.Update(item);
         }
 
-        public bool Delete(int gradeID)
+        public bool Delete(int id)
         {
-            if (gradeID <= 0)
+            if (id <= 0)
                 throw new Exception("Mã điểm không hợp lệ.");
 
-            return gradeDAL.Delete(gradeID);
+            return gradeDAL.Delete(id);
         }
 
         private void ValidateGrade(GradeDTO grade)

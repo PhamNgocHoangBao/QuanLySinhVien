@@ -15,29 +15,35 @@ namespace StudentManagement.BLL.Services
             return classDAL.GetAll();
         }
 
-        public bool Insert(ClassDTO classDTO)
+        public bool Insert(ClassDTO item)
         {
-            ValidateClass(classDTO);
+            string error = ClassValidator.Validate(item);
 
-            return classDAL.Insert(classDTO);
+            if (error != null)
+                throw new Exception(error);
+
+            return classDAL.Insert(item);
         }
 
-        public bool Update(ClassDTO classDTO)
+        public bool Update(ClassDTO item)
         {
-            if (classDTO.ClassID <= 0)
-                throw new Exception("Mã lớp không hợp lệ.");
+            if (item == null || item.ClassID <= 0)
+                throw new Exception("Thông tin lớp không hợp lệ.");
 
-            ValidateClass(classDTO);
+            string error = ClassValidator.Validate(item);
 
-            return classDAL.Update(classDTO);
+            if (error != null)
+                throw new Exception(error);
+
+            return classDAL.Update(item);
         }
 
-        public bool Delete(int classID)
+        public bool Delete(int id)
         {
-            if (classID <= 0)
+            if (id <= 0)
                 throw new Exception("Mã lớp không hợp lệ.");
 
-            return classDAL.Delete(classID);
+            return classDAL.Delete(id);
         }
 
         private void ValidateClass(ClassDTO classDTO)

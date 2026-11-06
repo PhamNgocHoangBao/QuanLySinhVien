@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
+using StudentManagement.UI.Helpers;
 using StudentManagement.DTO;
 using StudentManagement.BLL.Services;
 
@@ -153,6 +153,7 @@ namespace StudentManagement.UI
                     "Thông báo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+                MessageHelper.Error(ex.Message);
             }
         }
 
@@ -188,6 +189,7 @@ namespace StudentManagement.UI
                     "Thông báo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+                MessageHelper.Error(ex.Message);
             }
         }
 
@@ -231,6 +233,7 @@ namespace StudentManagement.UI
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+                MessageHelper.Error(ex.Message);
             }
         }
 
