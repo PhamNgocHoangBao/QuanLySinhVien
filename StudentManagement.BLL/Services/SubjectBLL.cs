@@ -20,7 +20,7 @@ namespace StudentManagement.BLL.Services
 
             if (error != null)
                 throw new Exception(error);
-
+            CheckDuplicateSubject(item);
             return subjectDAL.Insert(item);
         }
 
@@ -33,7 +33,7 @@ namespace StudentManagement.BLL.Services
 
             if (error != null)
                 throw new Exception(error);
-
+            CheckDuplicateSubject(item);
             return subjectDAL.Update(item);
         }
 
@@ -44,7 +44,20 @@ namespace StudentManagement.BLL.Services
 
             return subjectDAL.Delete(id);
         }
+        private void CheckDuplicateSubject(SubjectDTO item)
+        {
+            var subjects = subjectDAL.GetAll();
 
+            bool exists = subjects.Exists(s =>
+                s.SubjectCode.Equals(
+                    item.SubjectCode.Trim(),
+                    StringComparison.OrdinalIgnoreCase)
+                && s.SubjectID != item.SubjectID);
+
+            if (exists)
+                throw new Exception("Mã môn học đã tồn tại.");
+        }
+        /*
         private void ValidateSubject(SubjectDTO subject)
         {
             if (subject == null)
@@ -65,5 +78,6 @@ namespace StudentManagement.BLL.Services
             if (subject.Credits <= 0)
                 throw new Exception("Số tín chỉ phải lớn hơn 0.");
         }
+        */
     }
 }

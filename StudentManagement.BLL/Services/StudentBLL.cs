@@ -33,6 +33,7 @@ namespace StudentManagement.BLL.Services
 
             if (error != null)
                 throw new Exception(error);
+            CheckDuplicateStudent(item);
 
             return studentDAL.Insert(item);
         }
@@ -46,7 +47,7 @@ namespace StudentManagement.BLL.Services
 
             if (error != null)
                 throw new Exception(error);
-
+            CheckDuplicateStudent(item);
             return studentDAL.Update(item);
         }
 
@@ -57,7 +58,20 @@ namespace StudentManagement.BLL.Services
 
             return studentDAL.Delete(id);
         }
+        private void CheckDuplicateStudent(StudentDTO student)
+        {
+            var students = studentDAL.GetAll();
 
+            bool exists = students.Exists(s =>
+                s.StudentCode.Equals(
+                    student.StudentCode.Trim(),
+                    StringComparison.OrdinalIgnoreCase)
+                && s.StudentID != student.StudentID);
+
+            if (exists)
+                throw new Exception("Mã sinh viên đã tồn tại.");
+        }
+        /*
         private void ValidateStudent(StudentDTO student)
         {
             if (student == null)
@@ -90,5 +104,7 @@ namespace StudentManagement.BLL.Services
                 student.Phone.Length > 15)
                 throw new Exception("Số điện thoại không được vượt quá 15 ký tự.");
         }
+        */
+
     }
 }

@@ -20,7 +20,7 @@ namespace StudentManagement.BLL.Services
 
             if (error != null)
                 throw new Exception(error);
-
+            CheckDuplicateDepartment(item);
             return departmentDAL.Insert(item);
         }
 
@@ -33,7 +33,7 @@ namespace StudentManagement.BLL.Services
 
             if (error != null)
                 throw new Exception(error);
-
+            CheckDuplicateDepartment(item);
             return departmentDAL.Update(item);
         }
 
@@ -43,6 +43,19 @@ namespace StudentManagement.BLL.Services
                 throw new Exception("Mã khoa không hợp lệ.");
 
             return departmentDAL.Delete(id);
+        }
+        private void CheckDuplicateDepartment(DepartmentDTO item)
+        {
+            var departments = departmentDAL.GetAll();
+
+            bool exists = departments.Exists(d =>
+                d.DepartmentName.Equals(
+                    item.DepartmentName.Trim(),
+                    StringComparison.OrdinalIgnoreCase)
+                && d.DepartmentID != item.DepartmentID);
+
+            if (exists)
+                throw new Exception("Tên khoa đã tồn tại.");
         }
     }
 }

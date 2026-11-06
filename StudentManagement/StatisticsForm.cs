@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using StudentManagement.BLL.Services;
@@ -35,25 +36,32 @@ namespace StudentManagement.UI
                 lblDepartmentCount.Text = departments.Count.ToString();
                 lblSubjectCount.Text = subjects.Count.ToString();
 
-                // Thống kê điểm trung bình theo sinh viên
-                var ranking = grades
-                    .Where(g => g.TotalScore.HasValue)
-                    .GroupBy(g => new
+                // Xếp hạng sinh viên
+                var ranking = students.Select(student =>
+                {
+                    var scores = grades
+                        .Where(g => g.StudentID == student.StudentID
+                                 && g.TotalScore.HasValue)
+                        .ToList();
+
+                    decimal? average = scores.Count > 0
+                        ? Math.Round(
+                            scores.Average(g => g.TotalScore.Value), 2)
+                        : (decimal?)null;
+
+                    return new
                     {
-                        g.StudentID,
-                        g.StudentCode,
-                        g.StudentName
-                    })
-                    .Select(g => new
-                    {
-                        StudentCode = g.Key.StudentCode,
-                        StudentName = g.Key.StudentName,
-                        AverageScore = Math.Round(
-                            g.Average(x => x.TotalScore.Value), 2),
-                        NumberOfSubjects = g.Count()
-                    })
-                    .OrderByDescending(x => x.AverageScore)
-                    .ToList();
+                        StudentCode = student.StudentCode,
+                        StudentName = student.FullName,
+                        AverageScore = average,
+                        Classification = average.HasValue
+                            ? GetClassification(average.Value)
+                            : "Chưa có điểm",
+                        NumberOfSubjects = scores.Count
+                    };
+                })
+                .OrderByDescending(x => x.AverageScore)
+                .ToList();
 
                 dgvRanking.DataSource = ranking;
 
@@ -68,8 +76,30 @@ namespace StudentManagement.UI
                     dgvRanking.Columns["AverageScore"].HeaderText =
                         "Điểm trung bình";
 
+                    dgvRanking.Columns["Classification"].HeaderText =
+                        "Xếp loại";
+
                     dgvRanking.Columns["NumberOfSubjects"].HeaderText =
                         "Số môn có điểm";
+                }
+
+                // Thống kê sinh viên theo lớp
+                var classStatistics = classes.Select(c => new
+                {
+                    ClassName = c.ClassName,
+                    StudentCount = students.Count(s =>
+                        s.ClassID == c.ClassID)
+                }).ToList();
+
+                dgvClassStatistics.DataSource = classStatistics;
+
+                if (dgvClassStatistics.Columns.Count > 0)
+                {
+                    dgvClassStatistics.Columns["ClassName"].HeaderText =
+                        "Tên lớp";
+
+                    dgvClassStatistics.Columns["StudentCount"].HeaderText =
+                        "Số lượng sinh viên";
                 }
             }
             catch (Exception ex)
@@ -80,6 +110,20 @@ namespace StudentManagement.UI
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+        }
+
+        private string GetClassification(decimal average)
+        {
+            if (average >= 8.5m)
+                return "Giỏi";
+
+            if (average >= 7.0m)
+                return "Khá";
+
+            if (average >= 5.0m)
+                return "Trung bình";
+
+            return "Yếu";
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)

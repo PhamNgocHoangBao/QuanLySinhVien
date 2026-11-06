@@ -21,7 +21,7 @@ namespace StudentManagement.BLL.Services
 
             if (error != null)
                 throw new Exception(error);
-
+            CheckDuplicateClass(item);
             return classDAL.Insert(item);
         }
 
@@ -34,7 +34,7 @@ namespace StudentManagement.BLL.Services
 
             if (error != null)
                 throw new Exception(error);
-
+            CheckDuplicateClass(item);
             return classDAL.Update(item);
         }
 
@@ -45,7 +45,20 @@ namespace StudentManagement.BLL.Services
 
             return classDAL.Delete(id);
         }
+        private void CheckDuplicateClass(ClassDTO item)
+        {
+            var classes = classDAL.GetAll();
 
+            bool exists = classes.Exists(c =>
+                c.ClassName.Equals(
+                    item.ClassName.Trim(),
+                    StringComparison.OrdinalIgnoreCase)
+                && c.ClassID != item.ClassID);
+
+            if (exists)
+                throw new Exception("Tên lớp đã tồn tại.");
+        }
+        /*
         private void ValidateClass(ClassDTO classDTO)
         {
             if (classDTO == null)
@@ -69,5 +82,6 @@ namespace StudentManagement.BLL.Services
             if (!departmentExists)
                 throw new Exception("Khoa được chọn không tồn tại.");
         }
+        */
     }
 }

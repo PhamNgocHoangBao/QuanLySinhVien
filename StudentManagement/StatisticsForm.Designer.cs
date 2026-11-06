@@ -1,4 +1,5 @@
-﻿namespace StudentManagement.UI
+﻿
+namespace StudentManagement.UI
 {
     partial class StatisticsForm
     {
@@ -17,6 +18,10 @@
 
         private System.Windows.Forms.Label lblRankingTitle;
         private System.Windows.Forms.DataGridView dgvRanking;
+
+        private System.Windows.Forms.Label lblClassStatisticsTitle;
+        private System.Windows.Forms.DataGridView dgvClassStatistics;
+
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnBack;
 
@@ -43,26 +48,33 @@
 
             this.lblRankingTitle = new System.Windows.Forms.Label();
             this.dgvRanking = new System.Windows.Forms.DataGridView();
+
+            // Khởi tạo 2 control thống kê lớp tại đây
+            this.lblClassStatisticsTitle = new System.Windows.Forms.Label();
+            this.dgvClassStatistics = new System.Windows.Forms.DataGridView();
+
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
 
             ((System.ComponentModel.ISupportInitialize)(this.dgvRanking)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClassStatistics)).BeginInit();
+
             this.SuspendLayout();
 
             // Form
             this.Text = "Thống kê sinh viên";
-            this.Size = new System.Drawing.Size(1100, 700);
+            this.ClientSize = new System.Drawing.Size(1100, 900);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.BackColor = System.Drawing.Color.White;
 
             // Title
             this.lblTitle.Text = "THỐNG KÊ HỆ THỐNG";
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 20F,
-                System.Drawing.FontStyle.Bold);
+            this.lblTitle.Font = new System.Drawing.Font(
+                "Segoe UI", 20F, System.Drawing.FontStyle.Bold);
             this.lblTitle.Location = new System.Drawing.Point(30, 20);
             this.lblTitle.Size = new System.Drawing.Size(600, 45);
 
-            // Card titles and values
+            // Cards
             SetupCard(this.lblStudentTitle, this.lblStudentCount,
                 "Tổng sinh viên", 30);
 
@@ -84,7 +96,7 @@
 
             // Ranking grid
             this.dgvRanking.Location = new System.Drawing.Point(30, 245);
-            this.dgvRanking.Size = new System.Drawing.Size(1020, 330);
+            this.dgvRanking.Size = new System.Drawing.Size(1020, 320);
             this.dgvRanking.AutoSizeColumnsMode =
                 System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvRanking.ReadOnly = true;
@@ -94,20 +106,41 @@
             this.dgvRanking.MultiSelect = false;
             this.dgvRanking.RowHeadersVisible = false;
 
+            // Class statistics title
+            this.lblClassStatisticsTitle.Text = "THỐNG KÊ SINH VIÊN THEO LỚP";
+            this.lblClassStatisticsTitle.Font = new System.Drawing.Font(
+                "Segoe UI", 14F, System.Drawing.FontStyle.Bold);
+            this.lblClassStatisticsTitle.Location =
+                new System.Drawing.Point(30, 590);
+            this.lblClassStatisticsTitle.Size =
+                new System.Drawing.Size(500, 35);
+
+            // Class statistics grid
+            this.dgvClassStatistics.Location =
+                new System.Drawing.Point(30, 630);
+            this.dgvClassStatistics.Size =
+                new System.Drawing.Size(1020, 160);
+            this.dgvClassStatistics.AutoSizeColumnsMode =
+                System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvClassStatistics.ReadOnly = true;
+            this.dgvClassStatistics.AllowUserToAddRows = false;
+            this.dgvClassStatistics.RowHeadersVisible = false;
+
             // Refresh button
             this.btnRefresh.Text = "Làm mới";
-            this.btnRefresh.Location = new System.Drawing.Point(800, 600);
+            this.btnRefresh.Location = new System.Drawing.Point(800, 830);
             this.btnRefresh.Size = new System.Drawing.Size(110, 40);
             this.btnRefresh.Click += new System.EventHandler(
                 this.btnRefresh_Click);
 
             // Back button
             this.btnBack.Text = "Quay lại";
-            this.btnBack.Location = new System.Drawing.Point(930, 600);
+            this.btnBack.Location = new System.Drawing.Point(930, 830);
             this.btnBack.Size = new System.Drawing.Size(110, 40);
             this.btnBack.Click += new System.EventHandler(
                 this.btnBack_Click);
 
+            // Add controls
             this.Controls.Add(this.lblTitle);
 
             this.Controls.Add(this.lblStudentTitle);
@@ -124,10 +157,16 @@
 
             this.Controls.Add(this.lblRankingTitle);
             this.Controls.Add(this.dgvRanking);
+
+            this.Controls.Add(this.lblClassStatisticsTitle);
+            this.Controls.Add(this.dgvClassStatistics);
+
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnBack);
 
             ((System.ComponentModel.ISupportInitialize)(this.dgvRanking)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvClassStatistics)).EndInit();
+
             this.ResumeLayout(false);
         }
 
@@ -138,14 +177,14 @@
             int x)
         {
             title.Text = text;
-            title.Font = new System.Drawing.Font("Segoe UI", 11F,
-                System.Drawing.FontStyle.Bold);
+            title.Font = new System.Drawing.Font(
+                "Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             title.Location = new System.Drawing.Point(x, 100);
             title.Size = new System.Drawing.Size(220, 30);
 
             value.Text = "0";
-            value.Font = new System.Drawing.Font("Segoe UI", 22F,
-                System.Drawing.FontStyle.Bold);
+            value.Font = new System.Drawing.Font(
+                "Segoe UI", 22F, System.Drawing.FontStyle.Bold);
             value.ForeColor = System.Drawing.Color.DarkBlue;
             value.Location = new System.Drawing.Point(x, 135);
             value.Size = new System.Drawing.Size(220, 45);

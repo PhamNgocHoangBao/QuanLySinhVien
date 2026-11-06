@@ -33,7 +33,7 @@ namespace StudentManagement.BLL.Services
 
             if (error != null)
                 throw new Exception(error);
-
+            CheckDuplicateGrade(item);
             return gradeDAL.Insert(item);
         }
 
@@ -46,7 +46,7 @@ namespace StudentManagement.BLL.Services
 
             if (error != null)
                 throw new Exception(error);
-
+            CheckDuplicateGrade(item);
             return gradeDAL.Update(item);
         }
 
@@ -57,7 +57,23 @@ namespace StudentManagement.BLL.Services
 
             return gradeDAL.Delete(id);
         }
+        private void CheckDuplicateGrade(GradeDTO item)
+        {
+            var grades = gradeDAL.GetAll();
 
+            bool exists = grades.Exists(g =>
+                g.StudentID == item.StudentID &&
+                g.SubjectID == item.SubjectID &&
+                g.Semester == item.Semester &&
+                g.SchoolYear == item.SchoolYear &&
+                g.GradeID != item.GradeID);
+
+            if (exists)
+                throw new Exception(
+                    "Sinh viên đã có điểm môn học này trong học kỳ và năm học đã chọn.");
+        }
+        
+        /*
         private void ValidateGrade(GradeDTO grade)
         {
             if (grade == null)
@@ -81,7 +97,7 @@ namespace StudentManagement.BLL.Services
             if (!IsValidScore(grade.FinalScore))
                 throw new Exception("Điểm cuối kỳ phải nằm trong khoảng 0 đến 10.");
         }
-
+        */
         private bool IsValidScore(decimal? score)
         {
             return !score.HasValue ||
