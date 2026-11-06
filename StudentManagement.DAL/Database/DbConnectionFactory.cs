@@ -7,7 +7,7 @@ namespace StudentManagement.DAL.Database
     public static class DbConnectionFactory
     {
         private static readonly string connectionString =
-            @"Server=localhost\SQLEXPRESS;Database=StudentManagementDB;Trusted_Connection=True;TrustServerCertificate=True;";
+            @"Server=LAPTOP-RPV7OC8J\MSSQLSERVER04;Database=StudentManagementDB;Trusted_Connection=True;TrustServerCertificate=True;";
 
         public static SqlConnection GetConnection()
         {

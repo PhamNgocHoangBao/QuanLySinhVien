@@ -94,11 +94,8 @@ namespace StudentManagement.UI
                     "Thông báo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-<<<<<<< HEAD
-=======
                 MessageHelper.Error(ex.Message);
 
->>>>>>> 04e7228a2417add90b9ebc1858933613daa73b2a
             }
         }
 
@@ -134,10 +131,7 @@ namespace StudentManagement.UI
                     "Thông báo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-<<<<<<< HEAD
-=======
                 MessageHelper.Error(ex.Message);
->>>>>>> 04e7228a2417add90b9ebc1858933613daa73b2a
             }
         }
 
@@ -181,10 +175,7 @@ namespace StudentManagement.UI
                     "Lỗi",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
-<<<<<<< HEAD
-=======
                 MessageHelper.Error(ex.Message);
->>>>>>> 04e7228a2417add90b9ebc1858933613daa73b2a
             }
         }
 
