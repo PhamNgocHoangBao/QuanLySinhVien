@@ -5,11 +5,15 @@ using System.Windows.Forms;
 using StudentManagement.UI.Helpers;
 using StudentManagement.DTO;
 using StudentManagement.BLL.Services;
+using Microsoft.Extensions.Logging;
+using StudentManagement.DAL.Logging;
 
 namespace StudentManagement.UI
 {
     public partial class GradeForm : Form
     {
+        private static readonly ILogger logger = AppLogger.GetLogger<GradeForm>();
+
         private readonly GradeBLL gradeBLL = new GradeBLL();
         private readonly StudentBLL studentBLL = new StudentBLL();
         private readonly SubjectBLL subjectBLL = new SubjectBLL();
@@ -40,6 +44,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi tải danh sách sinh viên");
+
                 MessageBox.Show("Lỗi tải sinh viên: " + ex.Message);
             }
         }
@@ -56,6 +62,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi tải danh sách môn học");
+
                 MessageBox.Show("Lỗi tải môn học: " + ex.Message);
             }
         }
@@ -92,6 +100,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi tải danh sách điểm");
+
                 MessageBox.Show("Lỗi tải danh sách điểm: " + ex.Message);
             }
         }
@@ -185,6 +195,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogWarning("Thêm điểm không thành công: {Message}", ex.Message);
+
                 MessageBox.Show(
                     ex.Message,
                     "Thông báo",
@@ -221,6 +233,10 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogWarning(
+                    "Cập nhật điểm ID={Id} không thành công: {Message}",
+                    selectedGradeID, ex.Message);
+
                 MessageBox.Show(
                     ex.Message,
                     "Thông báo",
@@ -264,6 +280,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi xóa điểm ID={Id}", selectedGradeID);
+
                 MessageBox.Show("Lỗi xóa điểm: " + ex.Message);
                 MessageHelper.Error(ex.Message);
             }

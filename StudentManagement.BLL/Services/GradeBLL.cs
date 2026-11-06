@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using StudentManagement.DTO;
 using StudentManagement.DAL.Repositories;
+using Microsoft.Extensions.Logging;
+using StudentManagement.DAL.Logging;
 
 namespace StudentManagement.BLL.Services
 {
     public class GradeBLL
     {
+        private static readonly ILogger logger = AppLogger.GetLogger<GradeBLL>();
         private readonly GradeDAL gradeDAL = new GradeDAL();
 
         public List<GradeDTO> GetAll()
@@ -32,30 +35,81 @@ namespace StudentManagement.BLL.Services
             string error = GradeValidator.Validate(item);
 
             if (error != null)
+            {
+                logger.LogWarning(
+                    "Thêm điểm (SV={StudentID}, môn={SubjectID}, HK{Semester}, {SchoolYear}) thất bại: {Error}",
+                    item?.StudentID, item?.SubjectID, item?.Semester, item?.SchoolYear, error);
                 throw new Exception(error);
+            }
+
             CheckDuplicateGrade(item);
-            return gradeDAL.Insert(item);
+
+            bool result = gradeDAL.Insert(item);
+
+            if (result)
+                logger.LogInformation(
+                    "Thêm điểm (SV={StudentID}, môn={SubjectID}, HK{Semester}, {SchoolYear}) thành công",
+                    item.StudentID, item.SubjectID, item.Semester, item.SchoolYear);
+            else
+                logger.LogWarning(
+                    "Thêm điểm (SV={StudentID}, môn={SubjectID}, HK{Semester}, {SchoolYear}) thất bại: không có dòng nào được thêm",
+                    item.StudentID, item.SubjectID, item.Semester, item.SchoolYear);
+
+            return result;
         }
 
         public bool Update(GradeDTO item)
         {
             if (item == null || item.GradeID <= 0)
+            {
+                logger.LogWarning("Cập nhật điểm thất bại: mã điểm không hợp lệ");
                 throw new Exception("Mã điểm không hợp lệ.");
+            }
 
             string error = GradeValidator.Validate(item);
 
             if (error != null)
+            {
+                logger.LogWarning(
+                    "Cập nhật điểm ID={GradeID} (SV={StudentID}, môn={SubjectID}) thất bại: {Error}",
+                    item.GradeID, item.StudentID, item.SubjectID, error);
                 throw new Exception(error);
+            }
+
             CheckDuplicateGrade(item);
-            return gradeDAL.Update(item);
+
+            bool result = gradeDAL.Update(item);
+
+            if (result)
+                logger.LogInformation(
+                    "Cập nhật điểm ID={GradeID} (SV={StudentID}, môn={SubjectID}) thành công",
+                    item.GradeID, item.StudentID, item.SubjectID);
+            else
+                logger.LogWarning(
+                    "Cập nhật điểm ID={GradeID} (SV={StudentID}, môn={SubjectID}) thất bại: không có dòng nào được cập nhật",
+                    item.GradeID, item.StudentID, item.SubjectID);
+
+            return result;
         }
 
         public bool Delete(int id)
         {
             if (id <= 0)
+            {
+                logger.LogWarning(
+                    "Xóa điểm thất bại: mã điểm không hợp lệ ({Id})", id);
                 throw new Exception("Mã điểm không hợp lệ.");
+            }
 
-            return gradeDAL.Delete(id);
+            bool result = gradeDAL.Delete(id);
+
+            if (result)
+                logger.LogInformation("Xóa điểm ID={Id} thành công", id);
+            else
+                logger.LogWarning(
+                    "Xóa điểm ID={Id} thất bại: không tìm thấy bản ghi", id);
+
+            return result;
         }
         private void CheckDuplicateGrade(GradeDTO item)
         {
@@ -72,7 +126,7 @@ namespace StudentManagement.BLL.Services
                 throw new Exception(
                     "Sinh viên đã có điểm môn học này trong học kỳ và năm học đã chọn.");
         }
-        
+
         /*
         private void ValidateGrade(GradeDTO grade)
         {

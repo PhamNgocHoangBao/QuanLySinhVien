@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using StudentManagement.DTO;
 using StudentManagement.DAL.Repositories;
+using Microsoft.Extensions.Logging;
+using StudentManagement.DAL.Logging;
 
 namespace StudentManagement.BLL.Services
 {
     public class StudentBLL
     {
+        private static readonly ILogger logger = AppLogger.GetLogger<StudentBLL>();
         private readonly StudentDAL studentDAL = new StudentDAL();
 
         public List<StudentDTO> GetAll()
@@ -32,31 +35,81 @@ namespace StudentManagement.BLL.Services
             string error = StudentValidator.Validate(item);
 
             if (error != null)
+            {
+                logger.LogWarning(
+                    "Thêm sinh viên {Code} thất bại: {Error}",
+                    item?.StudentCode, error);
                 throw new Exception(error);
+            }
+
             CheckDuplicateStudent(item);
 
-            return studentDAL.Insert(item);
+            bool result = studentDAL.Insert(item);
+
+            if (result)
+                logger.LogInformation(
+                    "Thêm sinh viên {Code} thành công",
+                    item.StudentCode);
+            else
+                logger.LogWarning(
+                    "Thêm sinh viên {Code} thất bại: không có dòng nào được thêm",
+                    item.StudentCode);
+
+            return result;
         }
 
         public bool Update(StudentDTO item)
         {
             if (item == null || item.StudentID <= 0)
+            {
+                logger.LogWarning("Cập nhật sinh viên thất bại: mã sinh viên không hợp lệ");
                 throw new Exception("Mã sinh viên không hợp lệ.");
+            }
 
             string error = StudentValidator.Validate(item);
 
             if (error != null)
+            {
+                logger.LogWarning(
+                    "Cập nhật sinh viên {Code} (ID={Id}) thất bại: {Error}",
+                    item.StudentCode, item.StudentID, error);
                 throw new Exception(error);
+            }
+
             CheckDuplicateStudent(item);
-            return studentDAL.Update(item);
+
+            bool result = studentDAL.Update(item);
+
+            if (result)
+                logger.LogInformation(
+                    "Cập nhật sinh viên {Code} (ID={Id}) thành công",
+                    item.StudentCode, item.StudentID);
+            else
+                logger.LogWarning(
+                    "Cập nhật sinh viên {Code} (ID={Id}) thất bại: không có dòng nào được cập nhật",
+                    item.StudentCode, item.StudentID);
+
+            return result;
         }
 
         public bool Delete(int id)
         {
             if (id <= 0)
+            {
+                logger.LogWarning(
+                    "Xóa sinh viên thất bại: mã sinh viên không hợp lệ ({Id})", id);
                 throw new Exception("Mã sinh viên không hợp lệ.");
+            }
 
-            return studentDAL.Delete(id);
+            bool result = studentDAL.Delete(id);
+
+            if (result)
+                logger.LogInformation("Xóa sinh viên ID={Id} thành công", id);
+            else
+                logger.LogWarning(
+                    "Xóa sinh viên ID={Id} thất bại: không tìm thấy bản ghi", id);
+
+            return result;
         }
         private void CheckDuplicateStudent(StudentDTO student)
         {

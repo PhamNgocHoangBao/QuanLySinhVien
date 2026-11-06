@@ -4,11 +4,15 @@ using System.Windows.Forms;
 using StudentManagement.UI.Helpers;
 using StudentManagement.DTO;
 using StudentManagement.BLL.Services;
+using Microsoft.Extensions.Logging;
+using StudentManagement.DAL.Logging;
 
 namespace StudentManagement.UI
 {
     public partial class StudentForm : Form
     {
+        private static readonly ILogger logger = AppLogger.GetLogger<StudentForm>();
+
         private readonly StudentBLL studentBLL = new StudentBLL();
         private readonly ClassBLL classBLL = new ClassBLL();
 
@@ -37,6 +41,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Không thể tải danh sách lớp");
+
                 MessageBox.Show(
                     "Không thể tải danh sách lớp: " + ex.Message,
                     "Lỗi",
@@ -70,6 +76,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Không thể tải danh sách sinh viên");
+
                 MessageBox.Show(
                     "Không thể tải danh sách sinh viên: " + ex.Message,
                     "Lỗi",
@@ -148,6 +156,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogWarning("Thêm sinh viên không thành công: {Message}", ex.Message);
+
                 MessageBox.Show(
                     ex.Message,
                     "Thông báo",
@@ -184,6 +194,10 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogWarning(
+                    "Cập nhật sinh viên ID={Id} không thành công: {Message}",
+                    selectedStudentID, ex.Message);
+
                 MessageBox.Show(
                     ex.Message,
                     "Thông báo",
@@ -227,6 +241,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi xóa sinh viên ID={Id}", selectedStudentID);
+
                 MessageBox.Show(
                     "Không thể xóa sinh viên. Có thể sinh viên đã có điểm.\n" +
                     ex.Message,
@@ -303,6 +319,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi tìm kiếm sinh viên");
+
                 MessageBox.Show("Lỗi tìm kiếm: " + ex.Message);
             }
         }

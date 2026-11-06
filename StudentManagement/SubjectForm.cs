@@ -5,11 +5,15 @@ using System.Windows.Forms;
 using StudentManagement.UI.Helpers;
 using StudentManagement.DTO;
 using StudentManagement.BLL.Services;
+using Microsoft.Extensions.Logging;
+using StudentManagement.DAL.Logging;
 
 namespace StudentManagement.UI
 {
     public partial class SubjectForm : Form
     {
+        private static readonly ILogger logger = AppLogger.GetLogger<SubjectForm>();
+
         private readonly SubjectBLL subjectBLL = new SubjectBLL();
 
         private List<SubjectDTO> subjectList = new List<SubjectDTO>();
@@ -41,6 +45,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi tải danh sách môn học");
+
                 MessageBox.Show(
                     "Lỗi tải danh sách môn học: " + ex.Message,
                     "Lỗi",
@@ -95,6 +101,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogWarning("Thêm môn học không thành công: {Message}", ex.Message);
+
                 MessageBox.Show(
                     ex.Message,
                     "Thông báo",
@@ -131,6 +139,10 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogWarning(
+                    "Cập nhật môn học ID={Id} không thành công: {Message}",
+                    selectedSubjectID, ex.Message);
+
                 MessageBox.Show(
                     ex.Message,
                     "Thông báo",
@@ -174,6 +186,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi xóa môn học ID={Id}", selectedSubjectID);
+
                 MessageBox.Show(
                     "Không thể xóa môn học vì có thể đã có điểm liên quan.\n" +
                     ex.Message,

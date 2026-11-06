@@ -5,11 +5,15 @@ using System.Windows.Forms;
 using StudentManagement.UI.Helpers;
 using StudentManagement.DTO;
 using StudentManagement.BLL.Services;
+using Microsoft.Extensions.Logging;
+using StudentManagement.DAL.Logging;
 ///
 namespace StudentManagement.UI
 {
     public partial class ClassForm : Form
     {
+        private static readonly ILogger logger = AppLogger.GetLogger<ClassForm>();
+
         private readonly ClassBLL classBLL = new ClassBLL();
         private readonly DepartmentBLL departmentBLL = new DepartmentBLL();
 
@@ -37,6 +41,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi tải danh sách khoa");
+
                 MessageBox.Show("Lỗi tải danh sách khoa: " + ex.Message);
             }
         }
@@ -62,6 +68,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi tải danh sách lớp");
+
                 MessageBox.Show("Lỗi tải danh sách lớp: " + ex.Message);
             }
         }
@@ -114,6 +122,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogWarning("Thêm lớp học không thành công: {Message}", ex.Message);
+
                 MessageBox.Show(ex.Message, "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -147,6 +157,10 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogWarning(
+                    "Cập nhật lớp học ID={Id} không thành công: {Message}",
+                    selectedClassID, ex.Message);
+
                 MessageBox.Show(ex.Message, "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
@@ -187,6 +201,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi xóa lớp học ID={Id}", selectedClassID);
+
                 MessageBox.Show(
                     "Không thể xóa lớp vì có thể vẫn còn sinh viên thuộc lớp này.\n" +
                     ex.Message,

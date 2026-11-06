@@ -5,11 +5,15 @@ using System.Windows.Forms;
 using StudentManagement.UI.Helpers;
 using StudentManagement.DTO;
 using StudentManagement.BLL.Services;
+using Microsoft.Extensions.Logging;
+using StudentManagement.DAL.Logging;
 
 namespace StudentManagement.UI
 {
     public partial class DepartmentForm : Form
     {
+        private static readonly ILogger logger = AppLogger.GetLogger<DepartmentForm>();
+
         private readonly DepartmentBLL departmentBLL = new DepartmentBLL();
 
         private List<DepartmentDTO> departmentList =
@@ -41,6 +45,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi tải danh sách khoa");
+
                 MessageBox.Show("Lỗi tải danh sách khoa: " + ex.Message);
             }
         }
@@ -89,6 +95,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogWarning("Thêm khoa không thành công: {Message}", ex.Message);
+
                 MessageBox.Show(
                     ex.Message,
                     "Thông báo",
@@ -126,6 +134,10 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogWarning(
+                    "Cập nhật khoa ID={Id} không thành công: {Message}",
+                    selectedDepartmentID, ex.Message);
+
                 MessageBox.Show(
                     ex.Message,
                     "Thông báo",
@@ -169,6 +181,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Lỗi xóa khoa ID={Id}", selectedDepartmentID);
+
                 MessageBox.Show(
                     "Không thể xóa khoa vì có thể vẫn còn lớp thuộc khoa này.\n" +
                     ex.Message,

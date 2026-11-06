@@ -1,13 +1,16 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
 using StudentManagement.BLL.Services;
+using Microsoft.Extensions.Logging;
+using StudentManagement.DAL.Logging;
 
 namespace StudentManagement.UI
 {
     public partial class StatisticsForm : Form
     {
+        private static readonly ILogger logger = AppLogger.GetLogger<StatisticsForm>();
+
         private StudentBLL studentBLL = new StudentBLL();
         private ClassBLL classBLL = new ClassBLL();
         private DepartmentBLL departmentBLL = new DepartmentBLL();
@@ -104,6 +107,8 @@ namespace StudentManagement.UI
             }
             catch (Exception ex)
             {
+                logger.LogError(ex, "Không thể tải thống kê");
+
                 MessageBox.Show(
                     "Không thể tải thống kê: " + ex.Message,
                     "Lỗi",

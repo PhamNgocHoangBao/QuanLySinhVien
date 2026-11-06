@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Logging;
+using StudentManagement.DAL.Logging;
+
 namespace StudentManagement
 {
     internal static class Program
