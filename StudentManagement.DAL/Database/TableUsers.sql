@@ -1,0 +1,11 @@
+USE StudentManagementDB;
+GO
+
+CREATE TABLE Users
+(
+    UserID INT IDENTITY(1,1) PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(200) NOT NULL,
+    IsActive BIT NOT NULL DEFAULT 1
+);
+GO

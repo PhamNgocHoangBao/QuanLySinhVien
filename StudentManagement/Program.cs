@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using StudentManagement.DAL.Logging;
-
+using StudentManagement.BLL.Services;
+using StudentManagement.UI;
 namespace StudentManagement
 {
     internal static class Program
@@ -11,9 +12,25 @@ namespace StudentManagement
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+
+            try
+            {
+                new UserBLL().EnsureDefaultAdmin();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Không thể kết nối cơ sở dữ liệu: " + ex.Message,
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            using (LoginForm login = new LoginForm())
+            {
+                if (login.ShowDialog() != DialogResult.OK)
+                    return;
+            }
+
             Application.Run(new MainForm());
         }
     }

@@ -80,7 +80,7 @@ namespace StudentManagement.UI
             try
             {
                 DepartmentDTO department = GetDepartmentFromForm();
-
+                department.DepartmentID = 0;
                 if (departmentBLL.Insert(department))
                 {
                     MessageBox.Show("Thêm khoa thành công!");
@@ -102,7 +102,6 @@ namespace StudentManagement.UI
                     "Thông báo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-                MessageHelper.Error(ex.Message);
 
             }
         }
